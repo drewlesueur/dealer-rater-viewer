@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <title>LeSueur Car Company Dealer Rater Reviews</title>
+  <link rel="stylesheet" href="style.css" ></link>
+
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400italic,400' rel='stylesheet' type='text/css'>
+
+  <script src="jquery-1.9.1.min.js"></script>
+  <script src="underscore-min.js"></script>
+  <script>
+    var startMatch = location.search.match(/start=(\d+)/)
+    var index = (startMatch && startMatch[1]) || 0 
+    var length = 0
+    var reviews = []
+    var duration = 10000;
+    var review
+    var gotRatings = function (ratings) {
+      reviews = ratings.reviews
+      length = reviews.length
+      console.log(ratings) 
+      updateRating();
+    }
+
+    var randomlyBold = function (comment) {
+      var words = comment.split(" ");
+
+
+      var match = 0;
+      for (var i = 0; i < 500; i++) {
+        var wordIndex = _.random(0, words.length - 1)
+        var word = words[wordIndex];
+        var wordNext = words[wordIndex + 1] || "";
+        var wordNextNext = words[wordIndex + 2] || "";
+        //if (word.length > 4) {
+          match += 1
+          words[wordIndex] = "<b class='standout'>" + word + "</b>"
+          words[wordIndex + 1] = "<b class='standout'>" + wordNext + "</b>"
+          words[wordIndex + 2] = "<b class='standout'>" + wordNextNext + "</b>"
+        //}
+        if (match >= 5) {
+          break
+        }
+      }
+      return words.join(" ");
+
+    } 
+
+    var updateRating = function () {
+      review = reviews[index]
+      var quote = randomlyBold(review.comments)
+      $("#review").fadeOut("slow", function () {
+
+        $("#review").html('&ldquo;' + quote + '&rdquo; <br /> ' +  
+        '<span class="username"> - ' + (review.user && review.user.username) + '</span>' 
+        ).fadeIn("slow")
+      })
+      index += 1 
+      if (index >= length) {index = 0}
+      setTimeout(updateRating, duration)
+    }
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <img src="http://d3go5n7g2hd1g0.cloudfront.net/cdn/u/2013.04.18.1/images/locales/en-US/logo_dealerrater.png"/>
+  <img src="dealerrater.png"/>
+  <img src="http://www.dealerrater.com/images/badge_dealerrater_certified.png"/>
+  <div id="review"></div>
+</body>
+
+<script src="dealerrater.js"></script>
+</html>
