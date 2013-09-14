@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <title>LeSueur Car Company Dealer Rater Reviews</title>
+  <link rel="stylesheet" href="style.css" ></link>
+
+  <link href='http://fonts.googleapis.com/css?family=Vollkorn:400italic,400' rel='stylesheet' type='text/css'>
+
+  <script src="jquery-1.9.1.min.js"></script>
+  <script src="underscore-min.js"></script>
+  <script>
+
+    page dict
+      index 0
+      length 0
+      reviews emptyList
+      updateRating -ratings
+
+    pageMaker is -page
+      dict
+        index page index or 0
+        lenth page index or 0
+        reviews page reviews or empty list
+        updateRatings -ratings
+          page update
+            index 0
+            length ratings length
+        currentReview -x, randoms
+          page reviews index comments randomlyBold
+        curentUsername -x
+          page reviews index user username
+        
+
+
+    randomlyBold -str -the_randoms
+      the_words are str split space
+
+      data is (matches 0) (words the_words) (randoms the_randoms) toDict
+
+      data is
+        matches 0
+        words the_words
+        randoms the_randoms
+        toDict
+    
+      name drew
+      age 28
+        family
+          daugters
+
+            
+
+
+      
+    onTime! is -time
+      update! page setTime time
+              
+    gotRatings! -ratings
+      update! page updateRatings ratings
+
+
+    var randomlyBold = function (comment) {
+      var words = comment.split(" ");
+      var match = 0;
+      for (var i = 0; i < 500; i++) {
+        var wordIndex = _.random(0, words.length - 1)
+        var word = words[wordIndex];
+        var wordNext = words[wordIndex + 1] || "";
+        var wordNextNext = words[wordIndex + 2] || "";
+        //if (word.length > 4) {
+          match += 1
+          words[wordIndex] = "<b class='standout'>" + word + "</b>"
+          words[wordIndex + 1] = "<b class='standout'>" + wordNext + "</b>"
+          words[wordIndex + 2] = "<b class='standout'>" + wordNextNext + "</b>"
+        //}
+        if (match >= 5) {
+          break
+        }
+      }
+      return words.join(" ");
+
+    } 
+
+    var updateRating = function () {
+      review = reviews[index]
+      var quote = randomlyBold(review.comments)
+      $("#review").fadeOut("slow", function () {
+
+        $("#review").html('&ldquo;' + quote + '&rdquo; <br /> ' +  
+        '<span class="username"> - ' + (review.user && review.user.username) + '</span>' 
+        ).fadeIn("slow")
+      })
+      index += 1 
+      if (index >= length) {index = 0}
+      setTimeout(updateRating, duration)
+    }
+  </script>
+  <style>
+  </style>
+</head>
+<body>
+  <img src="http://d3go5n7g2hd1g0.cloudfront.net/cdn/u/2013.04.18.1/images/locales/en-US/logo_dealerrater.png"/>
+  <img src="dealerrater.png"/>
+  <img src="http://www.dealerrater.com/images/badge_dealerrater_certified.png"/>
+  <div id="review"></div>
+</body>
+
+<script src="dealerrater.js"></script>
+</html>
